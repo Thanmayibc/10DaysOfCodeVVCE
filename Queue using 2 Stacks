@@ -1,0 +1,73 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        
+        /*This code is without using two Stacks*/
+       /* Scanner sc =  new Scanner(System.in);
+        Queue<Integer> queue = new LinkedList<>(); 
+        int n = sc.nextInt();
+        int ele=0;
+        for(int i=1;i<=n;i++){
+            int input = sc.nextInt();
+            switch(input){
+            case 1 : 
+                    ele = sc.nextInt();
+                    queue.add(ele);
+                    break;
+            case 2 : 
+                    queue.remove();
+                    break;
+            case 3 :
+                    System.out.println(queue.peek());
+                    break;
+            }
+        }*/
+        
+        /*This code is with using two Stacks*/
+        Scanner sc =  new Scanner(System.in);
+
+        Stack<Integer> stack1 = new Stack<Integer>(); 
+        Stack<Integer> stack2 = new Stack<Integer>(); 
+        int n = sc.nextInt();
+        int ele=0,ele2=0,x=0;
+        for(int i=1;i<=n;i++){
+            int input = sc.nextInt();
+            switch(input){
+            case 1 : 
+                    ele = sc.nextInt();
+                    stack1.push(ele);
+                    break;
+            case 2 : 
+                    if(stack2.empty()){
+                        while(!(stack1.empty())){
+                            ele2 = stack1.pop();
+                            stack2.push(ele2);
+                        }
+                    }
+                    stack2.pop();
+                    break;
+            case 3 :
+                    if(stack2.empty()){
+                        while(!(stack1.empty())){
+                            ele2 = stack1.pop();
+                            stack2.push(ele2);
+                        }
+                        x = stack2.peek();
+                    }
+                    else{
+                        x = stack2.peek();
+                    }
+                    System.out.println(x);
+                    break;
+            }
+        }
+        
+    }
+}
