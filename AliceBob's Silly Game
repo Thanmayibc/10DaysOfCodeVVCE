@@ -1,0 +1,79 @@
+import java.io.*;
+import java.math.*;
+import java.text.*;
+import java.util.*;
+import java.util.regex.*;
+
+public class Solution {
+    /*
+     * Complete the sillyGame function below.
+     */
+    /* This code works only if n is small */
+    // static String sillyGame(int n) {
+        /*
+         * Write your code here.
+         */
+       /* int a,b,count=0,primeCount=0;
+        for(a=2 ; a<=n ; a++) {
+                for(b = 1 ; b<=a ;b++){
+                    if(a%b==0 )
+                        count++;
+                }
+                if(count==2){
+                    primeCount++;
+                    count=0;
+                }
+                else{
+                    count=0;
+                }
+        }
+        return primeCount%2==0 ? "Bob" : "Alice" ;*/
+
+    /*This code works for all values of n which satsifies the given constraints*/
+    private static int[] arr = new int[100001];
+    private static int pointer = 2;
+    static {
+            arr[1] = 0;
+            arr[2] = 1;
+            }
+    static String sillyGame(int n) {
+        if (arr[n] > 0) {
+            return arr[n]%2==0 ? "Bob" : "Alice" ;
+        }
+
+        for (int i = pointer+1; i <= n; i++) {
+            boolean x = true;
+            for (int j = 2; j <= Math.sqrt(i); j++) {
+                if (i % j == 0) {
+                    x = false;
+                    break;
+                }
+            }
+            if (x) arr[i] = arr[i-1] + 1;
+            else arr[i] = arr[i-1];
+        }
+
+        pointer = n;
+
+        return arr[n]%2==0 ? "Bob" : "Alice" ;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int g = Integer.parseInt(scanner.nextLine().trim());
+
+        for (int gItr = 0; gItr < g; gItr++) {
+            int n = Integer.parseInt(scanner.nextLine().trim());
+
+            String result = sillyGame(n);
+
+            bufferedWriter.write(result);
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
+    }
+}
