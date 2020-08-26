@@ -1,0 +1,71 @@
+import java.io.*;
+import java.math.*;
+import java.text.*;
+import java.util.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the solve function below.
+    static int solve(int a, int b, int x) {
+        if (b >= 0) {
+            return powMod(a, b, x);
+        }
+        else {
+            return powMod(inverseMod(a, x), -b, x);
+        }
+
+    }
+    static int powMod(int base, int expo, int modu) {
+        int res = 1;
+        while (expo != 0) {
+            if ((expo & 1) != 0) {
+                res = mulMod(res, base, modu);
+            }
+
+            base = mulMod(base, base, modu);
+            expo >>= 1;
+        }
+        return res;
+    }
+
+    static int mulMod(int x, int y, int modu) {
+        int product;
+        product = (int) ((long) x * y % modu);
+        return product;
+    }
+
+    static int inverseMod(int x, int modu) {
+        int value;
+        value = BigInteger.valueOf(x).modInverse(BigInteger.valueOf(modu)).intValue();
+        return value;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int t = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int tItr = 0; tItr < t; tItr++) {
+            String[] abx = scanner.nextLine().split(" ");
+
+            int a = Integer.parseInt(abx[0]);
+
+            int b = Integer.parseInt(abx[1]);
+
+            int x = Integer.parseInt(abx[2]);
+
+            int result = solve(a, b, x);
+
+            bufferedWriter.write(String.valueOf(result));
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
