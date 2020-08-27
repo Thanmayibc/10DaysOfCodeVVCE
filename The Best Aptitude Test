@@ -1,0 +1,136 @@
+import java.io.*; 
+import java.util.*;
+ 
+ public class Solution {    
+     private static double[] input;  
+     private static double[][] tocomp;  
+     private static int[] indexes;  
+     private static int[] icompare;  
+     private static int best = Integer.MAX_VALUE;  
+     private static int what = Integer.MAX_VALUE;  
+     private static int T;  private static int N; 
+
+     private static void computeFirst(double[] input) {   
+         indexes = new int[input.length];   
+         Map<Double, ArrayList<Integer>> map = new HashMap<Double, ArrayList<Integer>>();         
+         List<Double> list = new ArrayList<Double>();   
+         for (int i = 0; i < input.length; i++) {    
+             if (!map.containsKey(input[i])) {     
+                map.put(input[i], new ArrayList<Integer>());    
+                }    
+                map.get(input[i]).add(i);    
+                list.add(input[i]);   
+            }   
+            Collections.sort(list);   
+            List<Integer> temp;   
+            int position = 1;   
+            boolean skip = false;   
+            double one;   
+            double two;      
+            for (int i = 0; i < list.size() - 1; i++) {    
+                temp = map.get(list.get(i));        
+                if (skip == false) {     
+                    for (int j = 0; j < temp.size(); j++) {      
+                        indexes[temp.get(j)] = position;     
+                        }    
+                }        
+                one = list.get(i + 1);    
+                two = list.get(i);    
+                if (one != two) {     
+                    position++;     
+                    skip = false;    
+                    } else {     
+                        skip = true;    
+                        }   
+            }   
+            temp = map.get(list.get(list.size() - 1));   
+            for (int j = 0; j < temp.size(); j++) {    
+                indexes[temp.get(j)] = position;   
+                }  
+            }  
+            private static void analyze(double[] input) {      
+                icompare = new int[input.length];   
+                Map<Double, ArrayList<Integer>> map = new HashMap<Double,                                
+                ArrayList<Integer>>();   
+                List<Double> list = new ArrayList<Double>();   
+                for (int i = 0; i < input.length; i++) {    
+                    if (!map.containsKey(input[i])) {     
+                        map.put(input[i], new ArrayList<Integer>());    
+                        }    
+                    map.get(input[i]).add(i);    
+                    list.add(input[i]);   
+                }   
+                Collections.sort(list);   
+                List<Integer> temp;   
+                int position = 1;   
+                boolean skip = false;   
+                double one;   
+                double two;   
+                for (int i = 0; i < list.size() - 1; i++) {    
+                    temp = map.get(list.get(i));        
+                    if (skip == false) {     
+                        for (int j = 0; j < temp.size(); j++) {      
+                            icompare[temp.get(j)] = position;     
+                            }    
+                    }        
+                    one = list.get(i + 1);    
+                    two = list.get(i);    
+                    if (one != two) {     
+                        position++;     
+                        skip = false;    
+                    } else {     
+                        skip = true;    
+                        }   
+                    }      
+                    temp = map.get(list.get(list.size() - 1));   
+                    for (int j = 0; j < temp.size(); j++) {    
+                        icompare[temp.get(j)] = position;   
+                        }  
+                    }  
+        private static void computeDiff(int[] indexes, int[]icompare, int rank){   
+               int diff = 0;      
+               for(int i = 0; i < indexes.length; i++){    
+                   diff += Math.abs(indexes[i] - icompare[i]);   
+                }      
+                if(diff < best){    
+                    best = diff;    
+                    what = rank;  
+                    }  
+                }     
+        public static void main(String[] args) throws IOException {     
+                String line = "";   
+                String[] temp;   
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));                
+                line = br.readLine(); 
+                T = Integer.parseInt(line); 
+                int counter = 0; 
+                for(int i = 0; i < T; i++){ 
+                    counter = 0;    
+                    line = br.readLine();    
+                    N = Integer.parseInt(line);    
+                    input = new double[N];    
+                    tocomp = new double[5][N];    
+                    line = br.readLine();    
+                    temp = line.split(" ");    
+                for(int j = 0; j < N; j++){     
+                    input[j] = Double.parseDouble(temp[j]);    
+                }      
+                while(counter < 5){     
+                    line = br.readLine();     
+                    temp = line.split(" ");     
+                    for(int k = 0; k < N; k++){      
+                        tocomp[counter][k] = Double.parseDouble(temp[k]);     
+                    }     
+                    counter++;    
+                }       
+                computeFirst(input);       
+                for(int l = 0; l < tocomp.length; l++){    
+                    analyze(tocomp[l]);    
+                    computeDiff(indexes,icompare,l+1);    
+                }       
+                System.out.println(what);   
+                
+            } 
+            
+        }   
+}
